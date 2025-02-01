@@ -32,8 +32,6 @@ export class SpriteRenderer {
     #width;
     #height;
 
-    #camera;
-
     #passEncoder;
 
     #v0 = vec2.create();
@@ -59,7 +57,6 @@ export class SpriteRenderer {
         this.#device = device;
         this.#width = width;
         this.#height = height;
-        this.#camera = new Camera(this.#width, this.#height);
     }
 
     #setupIndexBuffer() {
@@ -84,17 +81,15 @@ export class SpriteRenderer {
         this.#setupIndexBuffer();
     }
 
-    framePass(passEncoder) {
+    framePass(passEncoder, camera) {
         this.#passEncoder = passEncoder;
 
         this.#batchDrawCallPerTexture = {};
 
         this.#currentTexture = null;
 
-        this.#camera.update();
-
         this.#device.queue.writeBuffer(
-            this.#projectionViewMatrixBuffer, 0, this.#camera.projectionViewMatrix
+            this.#projectionViewMatrixBuffer, 0, camera.projectionViewMatrix
         )
     }
 

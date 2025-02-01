@@ -19,16 +19,14 @@ export class Engine {
     onDraw() {};
 
     constructor(){
-
-    }
-
-    async initialize() {
         this.#canvas = document.getElementById('canvas');
         this.#context = this.#canvas.getContext('webgpu');
 
         this.gameBounds[0] = this.#canvas.width;
         this.gameBounds[1] = this.#canvas.height;
+    }
 
+    async initialize() {
         if (!this.#context) {
             alert('WebGPU not supported!');
             return;
@@ -78,10 +76,8 @@ export class Engine {
         }
 
         this.#passEncoder = commandEncoder.beginRenderPass(renderPassDescriptor);
-
-        this.spriteRenderer.framePass(this.#passEncoder);
         
-        this.onDraw();
+        this.onDraw(this.spriteRenderer, this.#passEncoder);
 
         this.spriteRenderer.frameEnd();
 

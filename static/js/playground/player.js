@@ -64,11 +64,16 @@ export class Player {
         this.#drawRect.x += this.#movementDirection[0] * PLAYER_SPEED * dt;
         this.#drawRect.y += this.#movementDirection[1] * PLAYER_SPEED * dt;
 
-        this.clampToBounds();
+        //this.clampToBounds();
     }
 
     getDrawRect() {
         return this.#drawRect;
+    }
+
+    setPosition(x, y) {
+        this.#drawRect.x = x;
+        this.#drawRect.y = y;
     }
 
     draw(spriteRenderer) {

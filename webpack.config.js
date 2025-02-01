@@ -1,10 +1,14 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'development', // Use 'production' for production builds
-  entry: './static/js/main.js', // Main entry point
+  entry: {
+    main: './static/js/main.js', // Main entry point
+    playground: './static/js/playground.js', // Playground entry point
+  },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js', // Output file names based on entry point names
     path: path.resolve(__dirname, 'static/dist'), // Output to the 'dist' folder
     publicPath: '/static/dist/', // Used by Webpack dev server
   },
@@ -16,6 +20,18 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      filename: 'index.html',
+      template: './templates/index.html',
+      chunks: ['main'], // Only include the main bundle
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'playground.html',
+      template: './templates/playground.html',
+      chunks: ['playground'], // Only include the playground bundle
+    }),
+  ],
   devServer: {
     static: path.join(__dirname, 'static'),
     port: 3000,
